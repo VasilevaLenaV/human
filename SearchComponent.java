@@ -18,21 +18,21 @@ public class SearchComponent {
      public Family getPosterity(String fullName) {
           return searchData
                     .stream()
-                    .filter(f -> f.mainParent.getName() == fullName || f.secondParent.getName() == fullName)
+                    //.filter(f -> f.mainParent.getName() == fullName || f.secondParent.getName() == fullName)
                     .findFirst()
                     .get();
      }
 
      public void showPosterity(String fullName) {
-        //   Family posterity = getPosterity(fullName);
+          Family posterity = getPosterity(fullName);
 
-        //   List<Person> persons = posterity.getChildren();
+          List<Person> persons = posterity.getChildren();
 
-        //   System.out.println("Потомки");
+          System.out.println("Потомки");
 
-        //   for (Person p : persons) {
-        //        p.getName();
-        //   }
+          for (Person p : persons) {
+               p.getName();
+          }
      }
 
      public void showFamilies() {
