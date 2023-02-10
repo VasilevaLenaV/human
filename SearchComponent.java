@@ -1,10 +1,12 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Predicate;
 
 public class SearchComponent {
      List<Family> searchData = new ArrayList();
 
+     Predicate<Integer> isPositive = x -> x > 0;
+     
      public SearchComponent(List<Family> data) {
           this.searchData.addAll(data);
      }
@@ -24,22 +26,22 @@ public class SearchComponent {
      }
 
      public void showPosterity(String fullName) {
-          Family posterity = getPosterity(fullName);
+          // Family posterity = getPosterity(fullName);
 
-          List<Person> persons = posterity.getChildren();
+          // List<Person> persons = posterity.getChildren();
 
-          System.out.println("Потомки");
+          // System.out.println("Потомки");
 
-          for (Person p : persons) {
-               p.getName();
-          }
+          // for (Person p : persons) {
+          //      p.getName();
+          // }
      }
 
      public void showFamilies() {
 
-          for (Family family : searchData) {
-               family.printAllPerson();
-          }
+          // for (Family family : searchData) {
+          //      family.printAllPerson();
+          // }
 
      }
 

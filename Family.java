@@ -1,54 +1,51 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 public class Family {
-     Person mainParent;
-     Person secondParent;
-     private List<Person> children = new ArrayList<>();
-     private List<Animal> pets = new ArrayList<Animal>();
+     private final Map<Person, Set<Relationship>> directRelationships = new HashMap<>();
 
-     public Family(Person mainParent, Person secondParent) {
-          this.mainParent = mainParent;
-          this.secondParent = secondParent;
+     public void marry(Person a, Person b) {
+          Relationship marriage = new Relationship(RelationshipKind.Spouse, a, b);
+          directRelationships.computeIfAbsent(a, k -> new HashSet<>()).add(marriage);
+          directRelationships.computeIfAbsent(b, k -> new HashSet<>()).add(marriage);
      }
 
-     public boolean addPets(Animal pet) {
-          return pets.add(pet);
+     public Map<Person, Set<Relationship>> getPersons() {
+          return directRelationships;
+     };
+
+     public void getFamilyPrint(){
+            for (Map.Entry<Person, Set<Relationship>> entry : this.directRelationships.entrySet()) {
+                System.out.println("\nPerson : " + entry.getKey().getName());
+
+                for(Relationship r : entry.getValue()){
+                    System.out.println("Relation : " + r.getPerson(entry.getKey()).name);
+                    System.out.println("RelationshipKind : " + r.getRelationshipKind().name());
+                }
+            }
      }
 
-     public boolean addChildren(Person person) {
-          person.mainParent =this.mainParent;
-          person.secondParent =this.secondParent;
-          
-          return children.add(person);
-     }
+     public void parenthood(Person mother,  Person child) {
+          Relationship motherhood = new Relationship(RelationshipKind.ParentChild, mother, child);
 
-     public List<Person> getChildren() {
-          return this.children;
-     }
+          Optional<Relationship> otherParent = directRelationships.get(mother)
+          .stream()
+          .filter(r -> r.getRelationshipKind() == RelationshipKind.Spouse)
+          .findFirst()
+          .map(marriage -> new Relationship(RelationshipKind.ParentChild,
+          marriage.getPerson(mother) , child));
 
 
-     public List<Person> getAllPerson() {
-          List<Person> faList = new ArrayList<Person>();
-          faList.addAll(this.children);
-          faList.addAll(Arrays.asList(this.mainParent, this.secondParent));
-          return faList;
-     }
-     public void printAllPerson(){
-          System.out.printf("\nСемья %sых\n",this.mainParent.lastName);
-          System.out.printf("Родитель1 (Отец):%s\nРодитель2 (Мать):%s\nДети:", this.mainParent.getName(),this.secondParent.getName());
-               for (Person person : children) {
-               System.out.println(person.getName());
+          directRelationships.computeIfAbsent(mother, k -> new HashSet<>()).add(motherhood);
+          directRelationships.computeIfAbsent(child, k -> new HashSet<>()).add(motherhood);
+
+          if (otherParent.isPresent()) {
+          directRelationships.computeIfAbsent(otherParent.get().getPerson(mother), k -> new HashSet<>()).add(otherParent.get());
+          directRelationships.get(child).add(otherParent.get());
           }
-          if(children.isEmpty()){
-               System.out.printf("\t-\n");
-          }
-
-     }     
-
-     public boolean isFamilyMember(Person person) {
-          return getAllPerson().contains(person);
      }
 
 }

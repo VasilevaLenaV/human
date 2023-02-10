@@ -1,10 +1,17 @@
+import java.util.List;
+
 public class Program {
     public static void main(String[] args) {
+        List<Family> fams = Mock.init();
 
-        SearchComponent sc =new SearchComponent(Mock.init());
-        sc.showFamilies();
+        DataComponent data =new DataComponent();
 
+        Family fam=  data.addFamaly();
+        fam.getFamilyPrint();
 
-        sc.showPosterity("Сидоров Сидор");
+        
+        for (Family family : fams) {
+            family.getFamilyPrint();
+        }
     }
 }

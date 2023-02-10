@@ -2,22 +2,17 @@ import java.time.LocalDate;
 
 public abstract class Human implements  ICreature  {
      protected  byte gender;
-     protected String lastName;
-     protected String firstName;
-     protected String patronymicName;
+     protected String name;
      protected LocalDate birthDate;
 
-     public Human(String lastName, String firstName, byte gender, LocalDate birthDate2) {
-          this.lastName = lastName;
-          this.firstName = firstName;
+     public Human(String name, LocalDate birthDate, byte gender) {
+          this.name =name;
           this.gender = gender;
-          this.birthDate = birthDate2;
+          this.birthDate = birthDate;
      }
 
-     public Human(String fio, LocalDate birthDate) {
-          String[] fio_ = fio.split(" ");
-          this.firstName = fio_[1];
-          this.lastName = fio_[0];
+     public Human(String name, LocalDate birthDate) {
+          this.name =name;
           this.birthDate = birthDate;
      }
 

@@ -11,3 +11,4 @@ public abstract class Animal implements ICreature {
      public abstract int getAge();
      public abstract void setBirthDate(LocalDate date);
 }
+
